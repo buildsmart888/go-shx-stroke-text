@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+*.shx
+*.shp
+*.ttf
+*.otf
+.DS_Store

@@ -1,0 +1,20 @@
+id = "go_shx_stroke_text"
+version = "0.2.0"
+author = "GO Engineering"
+author_url = "https://github.com/buildsmart888"
+license = "MIT"
+repository = "https://github.com/buildsmart888/go-shx-stroke-text"
+download = "https://raw.githubusercontent.com/buildsmart888/go-shx-stroke-text/v0.2.0/dist/go_shx_stroke_text-v0.2.0.zip"
+sha256 = "cad96dd4a95c9bbbbb5adc990ceafa835415e54f345d190986e80ad3de61fe1e"
+ingetrazo = "0.5.9"
+tags = ["drawing", "import-export", "productivity"]
+
+[name]
+es = "GO SHX Stroke Text"
+en = "GO SHX Stroke Text"
+pt = "GO SHX Stroke Text"
+
+[summary]
+es = "Texto vectorial SHX/SHP real para el modelo y el compositor de planos. Edición, trazos tailandeses Unicode/CP874, vista previa y exportación DXF."
+en = "Draw editable native SHX/SHP stroke text as model groups and vector lines on sheets, with Thai Unicode/CP874 mapping, glyph checks and DXF export."
+pt = "Texto vetorial SHX/SHP editável no modelo e nas pranchas; mapeamento tailandês Unicode/CP874, verificação de glifos e exportação DXF."

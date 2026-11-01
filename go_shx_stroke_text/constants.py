@@ -1,0 +1,9 @@
+"""Stable names and version for GO SHX Stroke Text."""
+VERSION = "0.2.0"
+PLUGIN_KEY = "go_shx_stroke_text"
+LAYER_NAME = "GO | SHX Stroke Text"
+SHEET_GROUP_PREFIX = "GO_SHX_"
+MAX_MODEL_SEGMENTS = 16000
+MAX_SHEET_SEGMENTS = 2500
+MAX_FONT_BYTES = 12 * 1024 * 1024
+MAX_TEXT_LENGTH = 1200
