@@ -4,10 +4,11 @@ author = "GO Engineering"
 author_url = "https://github.com/buildsmart888"
 license = "MIT"
 repository = "https://github.com/buildsmart888/go-shx-stroke-text"
-download = "https://raw.githubusercontent.com/buildsmart888/go-shx-stroke-text/v0.2.0/dist/go_shx_stroke_text-v0.2.0.zip"
+download = "https://raw.githubusercontent.com/buildsmart888/go-shx-stroke-text/58df8c4fb2ede8ea3dc519df61873899db93dc74/dist/go_shx_stroke_text-v0.2.0.zip"
 sha256 = "cad96dd4a95c9bbbbb5adc990ceafa835415e54f345d190986e80ad3de61fe1e"
 ingetrazo = "0.5.9"
 tags = ["drawing", "import-export", "productivity"]
+screenshot = "go_shx_stroke_text.webp"
 
 [name]
 es = "GO SHX Stroke Text"
