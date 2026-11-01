@@ -1,0 +1,92 @@
+name: Publish GO SHX Stroke Text v0.2.0
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-release-v0.2.0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: go-shx-stroke-text-v0.2.0-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the exact Community-reviewed source revision
+        uses: actions/checkout@v4
+        with:
+          ref: 58df8c4fb2ede8ea3dc519df61873899db93dc74
+          persist-credentials: false
+
+      - name: Verify release archive is byte-for-byte identical
+        shell: bash
+        run: |
+          echo 'cad96dd4a95c9bbbbb5adc990ceafa835415e54f345d190986e80ad3de61fe1e  dist/go_shx_stroke_text-v0.2.0.zip' | sha256sum --check --strict
+          python - <<'PY'
+          from zipfile import ZipFile
+          path = 'dist/go_shx_stroke_text-v0.2.0.zip'
+          with ZipFile(path) as z:
+              names = z.namelist()
+              assert all(name.startswith('go_shx_stroke_text/') for name in names)
+              assert 'go_shx_stroke_text/__init__.py' in names
+              assert z.testzip() is None
+          print('Community package layout: OK')
+          PY
+
+      - name: Create GitHub Release v0.2.0 and attach exact ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/go-shx-release-notes.md" <<'NOTES'
+          ## GO SHX Stroke Text v0.2.0
+
+          Native SHX/SHP stroke-font text for IngeTrazo, built with Python and `ezdxf`. Creates editable vector text without TrueType-outline substitution.
+
+          ### Highlights
+          - Read SHX/SHP stroke fonts directly, including user-supplied Thai-capable fonts.
+          - Create native edge-based text Groups in the 3D Model and vector text in Sheet Composer.
+          - Edit existing GO SHX Groups, including those from v0.1.0; preserve moved placements during Update.
+          - Double-click a GO SHX Group with the Select tool to reopen the editor.
+          - Check all missing glyphs at once and support Unicode plus Thai legacy CP874 mapping where supplied by the font.
+          - Export sheet stroke text as DXF via the extension's dedicated export feature.
+
+          ### Installation
+          1. Download **go_shx_stroke_text-v0.2.0.zip** under Assets below.
+          2. Extract it; copy the **go_shx_stroke_text** folder into IngeTrazo's plugin directory (Extensions > Open plugins folder).
+          3. Restart IngeTrazo. The host Python environment needs **ezdxf >= 1.1, < 2**.
+          4. Open **Extensions > GO SHX Stroke Text** to load your own SHX font.
+
+          The ZIP includes the extension only; it does not redistribute proprietary SHX font files.
+          Some glyphs may be absent from particular SHX files; missing glyphs and the positioning of Thai combining marks require visual review.
+
+          **Version:** 0.2.0 · **License:** MIT · **Author:** GO Engineering
+
+          **SHA-256** (`go_shx_stroke_text-v0.2.0.zip`):
+          `cad96dd4a95c9bbbbb5adc990ceafa835415e54f345d190986e80ad3de61fe1e`
+
+          This is the exact same ZIP used by the IngeTrazo Community Extensions catalog submission.
+          NOTES
+
+          if gh release view 'v0.2.0' --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Release v0.2.0 already exists; checking asset.'
+            assets="$(gh release view 'v0.2.0' --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')"
+            if ! grep -qx 'go_shx_stroke_text-v0.2.0.zip' <<< "$assets"; then
+              gh release upload 'v0.2.0' 'dist/go_shx_stroke_text-v0.2.0.zip' --repo "$GITHUB_REPOSITORY"
+            fi
+          else
+            gh release create 'v0.2.0' 'dist/go_shx_stroke_text-v0.2.0.zip' \
+              --repo "$GITHUB_REPOSITORY" \
+              --target '58df8c4fb2ede8ea3dc519df61873899db93dc74' \
+              --title 'GO SHX Stroke Text v0.2.0' \
+              --notes-file "$RUNNER_TEMP/go-shx-release-notes.md" \
+              --latest
+          fi
+          gh release view 'v0.2.0' --repo "$GITHUB_REPOSITORY" --json url,tagName,assets
